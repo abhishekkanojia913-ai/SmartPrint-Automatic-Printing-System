@@ -32,7 +32,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://10.46.225.113:5000/upload",
+        "https://smartprint-automatic-printing-system.onrender.com/upload",
         {
           method: "POST",
           body: formData,
@@ -82,7 +82,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://10.46.225.113:5000/orders",
+        "https://smartprint-automatic-printing-system.onrender.com/orders",
         {
           method: "POST",
           headers: {
@@ -150,9 +150,9 @@ function App() {
         <h3>📱 Scan QR Code to Start Printing</h3>
 
         <QRCodeSVG
-          value="http://10.46.225.113:5174/"
-          size={180}
-        />
+  value={window.location.origin}
+  size={180}
+/>
 
         <p>Scan this QR code to open SmartPrint</p>
       </div>
