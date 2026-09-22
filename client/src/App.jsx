@@ -60,7 +60,6 @@ function App() {
     totalPrice += pages * copies * 1;
   }
 
-  // Open Payment Page
   const handleProceedToPayment = () => {
     if (!selectedFile) {
       alert("Please upload a document first!");
@@ -70,7 +69,6 @@ function App() {
     setShowPayment(true);
   };
 
-  // Create order after payment
   const handlePaymentSuccess = async () => {
     const orderData = {
       fileName: selectedFile.name,
@@ -108,13 +106,14 @@ function App() {
     }
   };
 
-  // Admin Dashboard
+  /* ================= ADMIN ================= */
+
   if (showAdmin) {
     return (
       <div>
         <button
+          className="back-btn"
           onClick={() => setShowAdmin(false)}
-          style={{ margin: "20px" }}
         >
           ← Back to SmartPrint
         </button>
@@ -124,7 +123,8 @@ function App() {
     );
   }
 
-  // Payment Page
+  /* ================= PAYMENT ================= */
+
   if (showPayment) {
     return (
       <Payment
@@ -135,31 +135,77 @@ function App() {
     );
   }
 
+  /* ================= MAIN PAGE ================= */
+
   return (
     <div className="container">
-      <h1>🖨️ SmartPrint</h1>
 
-      <button onClick={() => setShowAdmin(true)}>
-        🧑‍💼 Open Admin Dashboard
-      </button>
+      {/* Brand */}
 
-      <h2>QR Based Automatic Printing System</h2>
+      <div className="brand">
+        <div className="brand-icon">
+          🖨️
+        </div>
 
-      {/* QR Code */}
-      <div className="qr-section">
-        <h3>📱 Scan QR Code to Start Printing</h3>
-
-        <QRCodeSVG
-  value={window.location.origin}
-  size={180}
-/>
-
-        <p>Scan this QR code to open SmartPrint</p>
+        <div>
+          <h1>SmartPrint</h1>
+          <p>Print smarter. Print faster.</p>
+        </div>
       </div>
 
-      {/* Upload Document */}
+      {/* Admin */}
+
+      <button
+        className="admin-btn"
+        onClick={() => setShowAdmin(true)}
+      >
+        🧑‍💼 Admin Dashboard
+      </button>
+
+      {/* Subtitle */}
+
+      <div className="hero-text">
+        <h2>QR Based Automatic Printing System</h2>
+
+        <p>
+          Upload your document, choose your printing preferences,
+          and place your order easily.
+        </p>
+      </div>
+
+      {/* QR Code */}
+
+      <div className="qr-section">
+
+        <div className="qr-title">
+          <span>📱</span>
+
+          <div>
+            <h3>Start Printing</h3>
+            <p>Scan the QR code to open SmartPrint</p>
+          </div>
+        </div>
+
+        <QRCodeSVG
+          value={window.location.origin}
+          size={180}
+        />
+
+        <div className="qr-hint">
+          Scan • Upload • Print
+        </div>
+
+      </div>
+
+      {/* Upload */}
+
       <div className="section">
+
         <h3>📄 Upload Document</h3>
+
+        <p className="section-description">
+          Upload your PDF or document for printing.
+        </p>
 
         <input
           type="file"
@@ -168,83 +214,179 @@ function App() {
         />
 
         {selectedFile && (
-          <p>
-            <strong>Selected File:</strong> {selectedFile.name}
-          </p>
+          <div className="file-selected">
+            <span>📄</span>
+
+            <div>
+              <strong>{selectedFile.name}</strong>
+              <small>Document selected</small>
+            </div>
+          </div>
         )}
 
-        <button onClick={handleUpload}>
+        <button
+          className="upload-btn"
+          onClick={handleUpload}
+        >
           Upload Document
         </button>
 
-        {message && <p>{message}</p>}
+        {message && (
+          <div className="message">
+            {message}
+          </div>
+        )}
+
       </div>
 
       {/* Print Type */}
+
       <div className="section">
+
         <h3>🎨 Print Type</h3>
+
+        <p className="section-description">
+          Choose your preferred printing type.
+        </p>
 
         <select
           value={printType}
           onChange={(e) => setPrintType(e.target.value)}
         >
-          <option value="bw">Black & White - ₹2/page</option>
-          <option value="color">Colour - ₹10/page</option>
+          <option value="bw">
+            Black & White - ₹2/page
+          </option>
+
+          <option value="color">
+            Colour - ₹10/page
+          </option>
         </select>
+
       </div>
 
       {/* Print Side */}
+
       <div className="section">
+
         <h3>📄 Print Side</h3>
+
+        <p className="section-description">
+          Select single or double-sided printing.
+        </p>
 
         <select
           value={side}
           onChange={(e) => setSide(e.target.value)}
         >
-          <option value="single">Single Side</option>
-          <option value="double">Double Side</option>
+          <option value="single">
+            Single Side
+          </option>
+
+          <option value="double">
+            Double Side
+          </option>
         </select>
+
       </div>
 
       {/* Copies */}
+
       <div className="section">
+
         <h3>🔢 Number of Copies</h3>
 
-        <input
-          type="number"
-          min="1"
-          value={copies}
-          onChange={(e) => setCopies(Number(e.target.value))}
-        />
+        <p className="section-description">
+          Select how many copies you need.
+        </p>
+
+        <div className="copies-control">
+
+          <button
+            className="copy-btn"
+            onClick={() =>
+              setCopies(Math.max(1, copies - 1))
+            }
+          >
+            −
+          </button>
+
+          <span>{copies}</span>
+
+          <button
+            className="copy-btn"
+            onClick={() =>
+              setCopies(copies + 1)
+            }
+          >
+            +
+          </button>
+
+        </div>
+
       </div>
 
       {/* Price */}
+
       <div className="price">
-        <h2>💰 Total Price: ₹{totalPrice}</h2>
+
+        <span>Total Amount</span>
+
+        <strong>
+          ₹{totalPrice}
+        </strong>
+
       </div>
 
-      {/* Proceed to Payment */}
+      {/* Payment */}
+
       <button
         className="payment-btn"
         onClick={handleProceedToPayment}
       >
-        💳 Proceed to Payment
+        Proceed to Payment
+        <span>→</span>
       </button>
 
-      {/* Order Success */}
-      {orderSuccess && (
-        <div className="success">
-          <h2>✅ Payment Successful!</h2>
+      {/* Success */}
 
-          <p>Your printing order has been placed successfully.</p>
+      {orderSuccess && (
+
+        <div className="success">
+
+          <div className="success-icon">
+            ✓
+          </div>
+
+          <h2>Order Placed Successfully!</h2>
 
           <p>
-            <strong>Amount Paid: ₹{totalPrice}</strong>
+            Your printing order has been received.
           </p>
 
-          <p>Order Status: Pending 🟡</p>
+          <div className="success-details">
+
+            <div>
+              <span>Amount Paid</span>
+              <strong>₹{totalPrice}</strong>
+            </div>
+
+            <div>
+              <span>Status</span>
+              <strong>Pending 🟡</strong>
+            </div>
+
+          </div>
+
         </div>
+
       )}
+
+      {/* Footer */}
+
+      <div className="footer">
+        SmartPrint • Simple. Fast. Convenient.
+      </div>
+
     </div>
   );
 }
