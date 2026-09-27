@@ -53,13 +53,27 @@ app.post("/orders", (req, res) => {
     totalPrice,
   } = req.body;
 
+  // Generate professional Order ID
+  const orderId =
+    "SP-" +
+    Date.now().toString().slice(-6);
+
+  // Current date and time
+  const orderDate = new Date();
+
   const newOrder = {
     id: Date.now(),
-    fileName,
-    printType,
-    copies,
-    side,
-    totalPrice,
+    orderId: orderId,
+
+    fileName: fileName,
+    printType: printType,
+    copies: copies,
+    side: side,
+    totalPrice: totalPrice,
+
+    orderDate: orderDate.toLocaleDateString("en-IN"),
+    orderTime: orderDate.toLocaleTimeString("en-IN"),
+
     status: "Pending",
   };
 
@@ -94,7 +108,7 @@ app.put("/orders/:id", (req, res) => {
 
   res.json({
     message: "Order status updated!",
-    order,
+    order: order,
   });
 });
 
@@ -102,5 +116,7 @@ app.put("/orders/:id", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(
+    `Server running on http://localhost:${PORT}`
+  );
 });
